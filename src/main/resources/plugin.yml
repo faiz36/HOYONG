@@ -1,0 +1,12 @@
+name: HOYONG
+version: 0.0.2
+api-version: 1.19
+main: me.faiz.HOYONG.Main
+depend:
+  - Kotlin
+libraries:
+  - io.github.monun:kommand-core:2.14.0
+permissions:
+  hoyong.yt:
+    default: false
+    description: 유튜버 권한 전용
