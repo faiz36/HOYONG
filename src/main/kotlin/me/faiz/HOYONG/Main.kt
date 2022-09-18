@@ -29,7 +29,7 @@ class Main:JavaPlugin(),Listener {
             register("디스코드"){
                 executes {
                     sender.sendMessage(Component.text("§6§l[여기]").hoverEvent(HoverEvent.showText(Component.text("누르시면 디스코드 초대창으로 넘어갑니다."))).clickEvent(
-                        ClickEvent.openUrl("discord.gg/5gJrDDbcxp")).append(Component.text("§f를 눌러 디스코드에 들어오세요!")))
+                        ClickEvent.openUrl("https://discord.gg/5gJrDDbcxp")).append(Component.text("§f를 눌러 디스코드에 들어오세요!")))
                 }
             }
             register("discord"){
