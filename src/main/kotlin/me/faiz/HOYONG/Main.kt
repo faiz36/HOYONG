@@ -8,10 +8,15 @@ import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.enchantment.EnchantItemEvent
-import org.bukkit.event.inventory.*
+import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.inventory.CraftItemEvent
+import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryType
+import org.bukkit.event.inventory.SmithItemEvent
 import org.bukkit.event.player.PlayerAttemptPickupItemEvent
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
 import org.bukkit.event.player.PlayerJoinEvent
@@ -23,8 +28,11 @@ import org.bukkit.plugin.java.JavaPlugin
 @Suppress("unused")
 class Main:JavaPlugin(),Listener {
 
+    var atk = true
+
     override fun onEnable() {
         server.pluginManager.registerEvents(this,this)
+
         kommand {
             register("디스코드"){
                 executes {
@@ -38,6 +46,31 @@ class Main:JavaPlugin(),Listener {
                         ClickEvent.openUrl("https://discord.gg/5gJrDDbcxp")).append(Component.text("§f를 눌러 디스코드에 들어오세요!")))
                 }
             }
+            register("smp"){
+                requires { player.isOp }
+                then("start"){
+                    executes {
+                        server.getWorld("world")!!.worldBorder.size = 10000.0
+                        atk = false
+                        server.scheduler.runTaskLater(this@Main,{->
+                            Runnable {
+                                atk=true
+                                server.broadcast(Component.text("10분이 지나 PVP가 가능합니다!"))
+                            }
+                        },20L*60L*10L)
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    fun onJoin(e:EntityDamageByEntityEvent){
+        if(e.damager.type != EntityType.PLAYER){
+            return
+        }
+        if(e.entity.type==EntityType.PLAYER && !atk){
+            e.isCancelled = true
         }
     }
 
