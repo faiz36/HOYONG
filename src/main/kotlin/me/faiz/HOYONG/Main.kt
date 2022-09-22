@@ -222,4 +222,4 @@ class Main:JavaPlugin(),Listener {
             e.player.sendMessage("§c이 명령어는 사용할 수 없습니다")
         }
     }
-}
+} //for test
