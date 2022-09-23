@@ -91,7 +91,6 @@ class Main:JavaPlugin(),Listener {
         val ci = e.item.itemStack
         if(ci == ItemStack(Material.TOTEM_OF_UNDYING)||
             ci == ItemStack(Material.DIAMOND_SWORD)||
-            ci == ItemStack(Material.DIAMOND_AXE)||
             ci == ItemStack(Material.NETHERITE_SWORD)||
             ci == ItemStack(Material.NETHERITE_AXE)||
             ci == ItemStack(Material.NETHERITE_HELMET)||
@@ -113,6 +112,12 @@ class Main:JavaPlugin(),Listener {
         val ci = e.currentItem
         if(inv == InventoryType.ANVIL){
             if(ci != null){
+                if(ci == ItemStack(Material.DIAMOND_AXE)||
+                        ci.enchantments.containsKey(Enchantment.DAMAGE_ALL)){
+                    e.isCancelled = true
+                    pl.sendMessage("§c이 인챈트를 하실 수 없습니다")
+                    pl.playSound(Sound.sound(Key.key("block.anvil.place"),Sound.Source.BLOCK,1f,1f))
+                }
             if(ci == ItemStack(Material.BOW) &&
                 ci.enchantments.containsKey(Enchantment.ARROW_DAMAGE) ||
                 ci.enchantments.containsValue(4)||
@@ -125,7 +130,6 @@ class Main:JavaPlugin(),Listener {
         }
         if(ci == ItemStack(Material.TOTEM_OF_UNDYING)||
             ci == ItemStack(Material.DIAMOND_SWORD)||
-            ci == ItemStack(Material.DIAMOND_AXE)||
             ci == ItemStack(Material.NETHERITE_SWORD)||
             ci == ItemStack(Material.NETHERITE_AXE)||
             ci == ItemStack(Material.NETHERITE_HELMET)||
@@ -147,6 +151,11 @@ class Main:JavaPlugin(),Listener {
             e.enchantsToAdd.containsValue(5)){
             e.isCancelled = true
             pl.sendMessage("§c이 인첸트를 하실 수 없습니다(힘4&5 인첸트가 아닌데 뜬다면 추가 인첸트로 떠서 그렇습니다)")
+            pl.playSound(Sound.sound(Key.key("block.anvil.place"),Sound.Source.BLOCK,1f,1f))
+        }
+        if(e.item == ItemStack(Material.DIAMOND_AXE)&&e.enchantsToAdd.containsKey(Enchantment.DAMAGE_ALL)){
+            e.isCancelled = true
+            pl.sendMessage("§c이 인첸트를 하실 수 없습니다(날카로움 인첸트가 아닌데 뜬다면 추가 인첸트로 떠서 그렇습니다)")
             pl.playSound(Sound.sound(Key.key("block.anvil.place"),Sound.Source.BLOCK,1f,1f))
         }
     }
@@ -173,8 +182,7 @@ class Main:JavaPlugin(),Listener {
         val pl = e.whoClicked
         val ci = e.currentItem
         if(pl.hasPermission("hoyong.yt")||pl.isOp) return
-        if(ci == ItemStack(Material.DIAMOND_SWORD)||
-            ci == ItemStack(Material.DIAMOND_AXE)){
+        if(ci == ItemStack(Material.DIAMOND_SWORD)){
             e.isCancelled = true
             pl.sendMessage("§c이 아이템은 제작하실 수 없습니다")
             pl.playSound(Sound.sound(Key.key("block.anvil.place"),Sound.Source.BLOCK,1f,1f))
