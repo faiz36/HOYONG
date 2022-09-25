@@ -1,30 +1,17 @@
 package me.faiz.HOYONG
 
 import io.github.monun.kommand.kommand
-import net.kyori.adventure.key.Key
-import net.kyori.adventure.sound.Sound
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
-import org.bukkit.Bukkit
 import org.bukkit.Material
-import org.bukkit.enchantments.Enchantment
-import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.enchantment.EnchantItemEvent
-import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityResurrectEvent
-import org.bukkit.event.inventory.CraftItemEvent
-import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.event.inventory.InventoryType
-import org.bukkit.event.inventory.SmithItemEvent
-import org.bukkit.event.player.PlayerAttemptPickupItemEvent
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
-import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
@@ -39,7 +26,7 @@ class Main:JavaPlugin(),Listener {
 
     override fun onEnable() {
         server.pluginManager.registerEvents(this,this)
-        val yt = object : BukkitRunnable() {
+        object : BukkitRunnable() {
             override fun run() {
                 val pls = server.onlinePlayers
                 pls.forEach {
@@ -71,7 +58,7 @@ class Main:JavaPlugin(),Listener {
                         server.getWorld("world")!!.worldBorder.size = 10000.0
                         atk = false
                         var time = 600
-                        val runnable = object : BukkitRunnable() {
+                        object : BukkitRunnable() {
                             override fun run() {
                                 if(time > 0){
                                     val pls = server.onlinePlayers
@@ -94,10 +81,11 @@ class Main:JavaPlugin(),Listener {
 
     @EventHandler
     fun onTotem(e: EntityResurrectEvent){
-        var pl: Player? = server.getPlayer(e.entity.name) ?: return
+        val pl: Player = server.getPlayer(e.entity.name) ?: return
         if(e.isCancelled) return
         if(cooltime[pl] == null || cooltime[pl]!! + 600 >= (System.currentTimeMillis() / 1000)){
-            cooltime[pl!!] = System.currentTimeMillis()/1000
+            cooltime[pl] = System.currentTimeMillis()/1000
+            pl.setCooldown(Material.TOTEM_OF_UNDYING,20*60*10)
         }else{
             e.isCancelled=true
         }
