@@ -5,9 +5,11 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
 import org.bukkit.Material
+import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityResurrectEvent
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
 import org.bukkit.event.player.PlayerJoinEvent
@@ -21,7 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable
 @Suppress("unused")
 class Main:JavaPlugin(),Listener {
 
-    var atk = true
+    var atk = false
     var cooltime:HashMap<Player,Long> = HashMap()
 
     override fun onEnable() {
@@ -89,6 +91,12 @@ class Main:JavaPlugin(),Listener {
         }else{
             e.isCancelled=true
         }
+    }
+
+    @EventHandler
+    fun onHit(e: EntityDamageByEntityEvent){
+        if(e.entityType!=EntityType.PLAYER) return
+        if(e.damager.type == EntityType.PLAYER&&atk) e.isCancelled=true
     }
 
     @EventHandler
