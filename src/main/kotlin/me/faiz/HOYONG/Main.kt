@@ -9,11 +9,15 @@ import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityResurrectEvent
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
+import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
@@ -33,13 +37,13 @@ class Main:JavaPlugin(),Listener {
                 val pls = server.onlinePlayers
                 pls.forEach {
                     if(it.hasPermission("hoyong.yt")){
-                        it.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,1,1))
-                        it.addPotionEffect(PotionEffect(PotionEffectType.SPEED,1,1))
+                        it.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,2,0))
+                        it.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,2,0))
                     }
                 }
             }
 
-        }.runTaskTimer(this@Main,10L,10L)
+        }.runTaskTimer(this@Main,1L,1L)
         kommand {
             register("디스코드"){
                 executes {
@@ -82,14 +86,38 @@ class Main:JavaPlugin(),Listener {
     }
 
     @EventHandler
+    fun onInteract(e:PlayerInteractEvent){
+        if(e.player.inventory.itemInMainHand== ItemStack(Material.TOTEM_OF_UNDYING,1)){
+            if(e.action == Action.RIGHT_CLICK_AIR || e.action == Action.RIGHT_CLICK_BLOCK){
+                if(cooltime[e.player]==null){
+                    cooltime[e.player]=0
+                }
+                if(cooltime[e.player] == null || cooltime[e.player]!! + 600 <= (System.currentTimeMillis() / 1000)){
+                    e.player.sendMessage("불사의 토템 쿨타임이 0초 남았습니다.")
+                    }
+                else{
+                e.player.sendMessage("불사의 토템 쿨타임이 ${cooltime[e.player]!!+600-System.currentTimeMillis()/1000}초 남았습니다.")
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    fun onDie(e:EntityDeathEvent){
+        if(e.entityType==EntityType.ENDER_DRAGON){
+            server.getWorld("world_the_end")!!.getBlockAt(0,65,0).type = Material.DRAGON_EGG
+        }
+    }
+
+    @EventHandler
     fun onTotem(e: EntityResurrectEvent){
         val pl: Player = server.getPlayer(e.entity.name) ?: return
         if(e.isCancelled) return
-        if(cooltime[pl] == null || cooltime[pl]!! + 600 >= (System.currentTimeMillis() / 1000)){
+        if(cooltime[pl] == null || cooltime[pl]!! + 600 <= (System.currentTimeMillis() / 1000)){
             cooltime[pl] = System.currentTimeMillis()/1000
             pl.setCooldown(Material.TOTEM_OF_UNDYING,20*60*10)
         }else{
-            e.isCancelled=true
+            e.isCancelled = true
         }
     }
 
