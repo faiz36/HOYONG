@@ -1,5 +1,6 @@
 package me.faiz.HOYONG
 
+import io.github.monun.kommand.getValue
 import io.github.monun.kommand.kommand
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
+import org.bukkit.event.entity.EntityDamageByBlockEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityResurrectEvent
@@ -37,14 +39,34 @@ class Main:JavaPlugin(),Listener {
                 val pls = server.onlinePlayers
                 pls.forEach {
                     if(it.hasPermission("hoyong.yt")){
-                        it.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,2,0))
-                        it.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,2,0))
+                        it.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,2,1))
+                        it.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,2,1))
                     }
                 }
             }
 
         }.runTaskTimer(this@Main,1L,1L)
         kommand {
+            register("totem"){
+                then("reset"){
+                    executes {
+                    val pl:Player = server.getPlayer(sender.name)!!
+                        cooltime[pl] = 0
+                        pl.setCooldown(Material.TOTEM_OF_UNDYING,0)
+                        sender.sendMessage("불사의 토템 쿨타임이 초기화 되었습니다")
+                    }
+                    requires { sender.isOp }
+                    then("arg" to player()){
+                        executes {
+                            val arg: Player by it
+                            val pl:Player = arg
+                            cooltime[pl] = 0
+                            pl.setCooldown(Material.TOTEM_OF_UNDYING,0)
+                            sender.sendMessage("불사의 토템 쿨타임이 초기화 되었습니다")
+                        }
+                    }
+                }
+            }
             register("디스코드"){
                 executes {
                     sender.sendMessage(Component.text("§6§l[여기]").hoverEvent(HoverEvent.showText(Component.text("누르시면 디스코드 초대창으로 넘어갑니다."))).clickEvent(
@@ -103,6 +125,14 @@ class Main:JavaPlugin(),Listener {
     }
 
     @EventHandler
+    fun onDamage(e:EntityDamageByBlockEvent){
+        if(e.entityType!=EntityType.PLAYER) return
+        if(e.damager?.type == null){
+            e.damage = e.damage/5
+        }
+    }
+
+    @EventHandler
     fun onDie(e:EntityDeathEvent){
         if(e.entityType==EntityType.ENDER_DRAGON){
             server.getWorld("world_the_end")!!.getBlockAt(0,65,0).type = Material.DRAGON_EGG
@@ -126,6 +156,8 @@ class Main:JavaPlugin(),Listener {
         if(e.entityType!=EntityType.PLAYER) return
         if(e.damager.type == EntityType.PLAYER&&atk) e.isCancelled=true
     }
+
+
 
     @EventHandler
     fun onPreprocess(e: PlayerCommandPreprocessEvent){
