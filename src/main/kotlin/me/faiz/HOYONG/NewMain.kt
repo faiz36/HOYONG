@@ -20,7 +20,7 @@ class NewMain : JavaPlugin() {
     override fun onEnable() {
         BanCommand(this)
         HandleCoin(this)
-        CoinCommand(this, coinController)
+        CoinCommand(this, coinController,handleCoin)
         HandleJoinLeave(this)
         TotemCommand(this, handleTotem)
         kommand{
@@ -43,13 +43,13 @@ class NewMain : JavaPlugin() {
                 val pls = server.onlinePlayers
                 pls.forEach {
                     if(it.hasPermission("hoyong.yt")){
-                        it.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,1,999999999))
-                        it.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,1,999999999))
+                        it.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,99999,1))
+                        it.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,99999,1))
                     }
                 }
             }
 
-        }.runTaskTimer(this,1L,1L*20*1000)
+        }.runTaskTimer(this,1L*20*1000,1L*20)
 
     }
 }

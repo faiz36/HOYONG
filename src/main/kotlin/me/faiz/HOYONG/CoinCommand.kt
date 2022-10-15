@@ -5,7 +5,7 @@ import io.github.monun.kommand.kommand
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 
-class CoinCommand(val plugin: Plugin, val coin: CoinController) {
+class CoinCommand(val plugin: Plugin, val coin: CoinController,val hc:HandleCoin) {
 
     init {
         plugin.apply {
@@ -13,7 +13,7 @@ class CoinCommand(val plugin: Plugin, val coin: CoinController) {
                 register("후원상점"){
                     executes{
                         val pl: Player? = server.getPlayer(sender.name)
-                        onCoin(pl)
+                        hc.onCoin(pl)
                     }
                 }
                 register("coin"){
@@ -25,9 +25,9 @@ class CoinCommand(val plugin: Plugin, val coin: CoinController) {
                                     val arg: Player by it
                                     val amount: Int by it
                                     val pl:Player = arg
-                                    coin[pl.uniqueId] = amount
+                                    coin[pl.uniqueId] =+ amount
                                     coin.save()
-                                    sender.sendMessage("${pl}에게 ${amount}만큼의 코인을 지급했습니다!")
+                                    sender.sendMessage("${pl.name}에게 ${amount}만큼의 코인을 지급했습니다!")
                                 }
                             }
                         }
