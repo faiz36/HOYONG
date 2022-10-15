@@ -9,6 +9,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.plugin.Plugin
 
 lateinit var inv: Inventory
@@ -33,7 +34,9 @@ class HandleCoin(val plugin:Plugin):Listener {
 fun onCoin(pl: Player?){
     inv = Bukkit.createInventory(null,9, Component.text("§l§b후원상점"))
     knamet = ItemStack(Material.NAME_TAG)
-    knamet.itemMeta.setDisplayName("한글 닉네임")
+    var knametm:ItemMeta = knamet.itemMeta
+    knametm.displayName(Component.text("한글 닉네임"))
+    knamet.itemMeta = knametm
     inv.setItem(1,knamet)
     pl!!.openInventory(inv)
 }
