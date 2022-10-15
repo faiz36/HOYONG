@@ -6,6 +6,8 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
 import org.bukkit.Material
+import org.bukkit.configuration.file.FileConfiguration
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -24,30 +26,61 @@ import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
+import java.io.File
 
 
 @Suppress("unused")
 class Main:JavaPlugin(),Listener {
 
     var atk = false
-    var cooltime:HashMap<Player,Long> = HashMap()
+    private var cooltime:HashMap<Player,Long> = HashMap()
+
+    var file: File = File(dataFolder,"data.yml")
+    lateinit var data:FileConfiguration
 
     override fun onEnable() {
         server.pluginManager.registerEvents(this,this)
+        if(!file.exists()){
+            data = YamlConfiguration.loadConfiguration(file)
+        }
         object : BukkitRunnable() {
             override fun run() {
                 val pls = server.onlinePlayers
                 pls.forEach {
                     if(it.hasPermission("hoyong.yt")){
-                        it.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,2,1))
-                        it.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,2,1))
+                        it.addPotionEffect(PotionEffect(PotionEffectType.REGENERATION,1,999999999))
+                        it.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,2,999999999))
                     }
                 }
             }
 
         }.runTaskTimer(this@Main,1L,1L)
         kommand {
+            register("후원상점"){
+                executes{
+                    var pl: Player? = server.getPlayer(sender.name)
+                    onCoin(pl)
+                }
+            }
+            register("coin"){
+                then("add"){
+                    requires { sender.isOp }
+                    then("arg" to player()){
+                        then("amount" to int()){
+                            executes{
+                                val arg: Player by it
+                                val amount: Int by it
+                                val pl:Player = arg
+                                data.set(pl.uniqueId.toString(),amount)
+                                data.save(file)
+                                sender.sendMessage("${pl}에게 ${amount}만큼의 코인을 지급했습니다!")
+                            }
+                        }
+                    }
+                }
+            }
             register("totem"){
+                requires { sender.isOp }
                 then("reset"){
                     executes {
                     val pl:Player = server.getPlayer(sender.name)!!
@@ -55,7 +88,6 @@ class Main:JavaPlugin(),Listener {
                         pl.setCooldown(Material.TOTEM_OF_UNDYING,0)
                         sender.sendMessage("불사의 토템 쿨타임이 초기화 되었습니다")
                     }
-                    requires { sender.isOp }
                     then("arg" to player()){
                         executes {
                             val arg: Player by it
@@ -314,5 +346,9 @@ class Main:JavaPlugin(),Listener {
 //            pl.playSound(Sound.sound(Key.key("block.anvil.place"),Sound.Source.BLOCK,1f,1f))
 //        }
 //    }
+
+}
+
+fun onCoin(pl:Player?){
 
 }

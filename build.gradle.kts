@@ -22,6 +22,10 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.jar{
+    destinationDirectory.set(File("/root/smp/plugins"))
+}
+
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
