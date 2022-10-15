@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.faiz.HOYONG"
-version = "0.0.2"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -22,9 +22,9 @@ tasks.test {
     useJUnitPlatform()
 }
 
-tasks.jar{
-    destinationDirectory.set(File("/root/smp/plugins"))
-}
+//tasks.jar{
+//    destinationDirectory.set(File("/root/smp/plugins"))
+//}
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
