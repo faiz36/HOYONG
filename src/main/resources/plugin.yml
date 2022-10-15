@@ -1,5 +1,5 @@
 name: HOYONG
-version: 0.0.2
+version: 1.0.0
 api-version: 1.19
 main: me.faiz.HOYONG.NewMain
 depend:
