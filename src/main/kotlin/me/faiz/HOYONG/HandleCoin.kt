@@ -36,6 +36,7 @@ class HandleCoin(val plugin:Plugin):Listener {
     fun onCoin(pl: Player?){
         val coin = ItemStack(Material.EMERALD)
         val coinm:ItemMeta = coin.itemMeta
+        cclr.getData()
         coinm.displayName(Component.text("가지고있는 코인 : ${cclr.get(pl!!.uniqueId)}개"))
         coin.itemMeta = coinm
         inv.setItem(13,coin)

@@ -21,6 +21,10 @@ class CoinController(val plugin: Plugin) : Listener {
         yaml.set(uniqueId.toString(), coin)
     }
 
+    fun getData(){
+        yaml.load(file)
+    }
+
     operator fun set(player: Player, coin: Int) = set(player.uniqueId, coin)
 
     operator fun get(player: Player) = get(player.uniqueId)
