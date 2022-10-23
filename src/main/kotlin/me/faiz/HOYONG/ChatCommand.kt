@@ -38,7 +38,7 @@ class ChatCommand(val plugin: Plugin, val cclr: ChatController) {
                                 executes {
                                     val color: String by it
                                     val pl: Player by it
-                                    var rcolor = name.replace("&", "§")
+                                    var rcolor = color.replace("&", "§")
                                     rcolor = rcolor.replace("§o", "")
                                     rcolor = rcolor.replace("§n", "")
                                     rcolor = rcolor.replace("§m", "")
