@@ -27,7 +27,7 @@ class ChatCommand(val plugin: Plugin, val cclr: ChatController) {
                                     cclr.getData()
                                     cclr.setNick(pl, rname)
                                     cclr.save()
-                                    sender.sendMessage("${pl.name}에게 ${rname}이라는 이름을 부여했습니다!")
+                                    sender.sendMessage("${pl.name}에게 ${rname}§r이라는 이름을 부여했습니다!")
                                 }
                             }
                         }

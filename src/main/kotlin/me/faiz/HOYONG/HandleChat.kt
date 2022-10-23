@@ -18,7 +18,7 @@ class HandleChat(val plugin: Plugin,val cclr:ChatController):Listener {
         cclr.getData()
         if(cclr.getNick(e.player) != null){
             if(cclr.getColor(e.player) != null){
-                Bukkit.broadcastMessage("${cclr.getNick(e.player)}§r§l :§r ${cclr.getColor(e.player)}}${e.message}")
+                Bukkit.broadcastMessage("${cclr.getNick(e.player)}§r§l :§r ${cclr.getColor(e.player)}${e.message}")
             }else{
                 Bukkit.broadcastMessage("${cclr.getNick(e.player)}§r§l :§r ${e.message}")
             }
