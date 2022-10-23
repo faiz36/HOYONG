@@ -43,6 +43,7 @@ class ChatCommand(val plugin: Plugin, val cclr: ChatController) {
                                     rcolor = rcolor.replace("§n", "")
                                     rcolor = rcolor.replace("§m", "")
                                     rcolor = rcolor.replace("§k", "")
+                                    rcolor = rcolor.replace("§l", "")
                                     cclr.getData()
                                     cclr.setColor(pl, rcolor)
                                     cclr.save()
