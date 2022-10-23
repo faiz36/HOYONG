@@ -14,11 +14,11 @@ class CoinController(val plugin: Plugin) : Listener {
     private val yaml = YamlConfiguration.loadConfiguration(file)
 
     operator fun get(uniqueId: UUID): Int {
-        return yaml.getInt(uniqueId.toString())
+        return yaml.getInt("$uniqueId.coin")
     }
 
     operator fun set(uniqueId: UUID, coin: Int) {
-        yaml.set(uniqueId.toString(), coin)
+        yaml.set("$uniqueId.coin", coin)
     }
 
     fun getData(){

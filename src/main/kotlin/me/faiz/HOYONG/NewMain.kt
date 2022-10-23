@@ -14,10 +14,11 @@ class NewMain : JavaPlugin() {
 
     val coinController by lazy { CoinController(this) }
     val handleTotem by lazy { HandleTotem(this) }
-
+    val ChatController by lazy { ChatController(this) }
     val handleCoin by lazy { HandleCoin(this) }
 
     override fun onEnable() {
+        HandleChat(this,ChatController)
         BanCommand(this)
         HandleCoin(this)
         CoinCommand(this, coinController,handleCoin)
