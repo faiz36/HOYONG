@@ -33,6 +33,38 @@ class CoinCommand(val plugin: Plugin, val coin: CoinController,val hc:HandleCoin
                             }
                         }
                     }
+                    then("remove"){
+                        requires { sender.isOp }
+                        then("arg" to player()){
+                            then("amount" to int()){
+                                executes{
+                                    val arg: Player by it
+                                    val amount: Int by it
+                                    val pl:Player = arg
+                                    coin.getData()
+                                    coin[pl.uniqueId] =- amount
+                                    coin.save()
+                                    sender.sendMessage("${pl.name}에게 ${amount}만큼의 코인을 지급했습니다!")
+                                }
+                            }
+                        }
+                    }
+                    then("set"){
+                        requires { sender.isOp }
+                        then("arg" to player()){
+                            then("amount" to int()){
+                                executes{
+                                    val arg: Player by it
+                                    val amount: Int by it
+                                    val pl:Player = arg
+                                    coin.getData()
+                                    coin[pl.uniqueId] = amount
+                                    coin.save()
+                                    sender.sendMessage("${pl.name}에게 ${amount}만큼의 코인을 지급했습니다!")
+                                }
+                            }
+                        }
+                    }
                 }
             }
 

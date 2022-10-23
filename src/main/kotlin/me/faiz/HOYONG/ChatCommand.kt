@@ -1,5 +1,6 @@
 package me.faiz.HOYONG
 
+import io.github.monun.kommand.StringType
 import io.github.monun.kommand.getValue
 import io.github.monun.kommand.kommand
 import org.bukkit.Bukkit
@@ -13,45 +14,39 @@ class ChatCommand(val plugin: Plugin, val cclr: ChatController) {
                 register("chat") {
                     requires { sender.isOp }
                     then("nickname") {
-                        then("player" to player()) {
-                            then("name" to string()) {
+                        then("pl" to player()) {
+                            then("name" to string(StringType.QUOTABLE_PHRASE)) {
                                 executes {
                                     val name: String by it
                                     val pl: Player by it
-                                    name.replace("&o", "")
-                                    name.replace("&n", "")
-                                    name.replace("&m", "")
-                                    name.replace("&k", "")
-                                    name.replace("&", "§")
-                                    name.replace("§o", "")
-                                    name.replace("§n", "")
-                                    name.replace("§m", "")
-                                    name.replace("§k", "")
+                                    var rname = name.replace("&", "§")
+                                    rname = rname.replace("§o", "")
+                                    rname = rname.replace("§n", "")
+                                    rname = rname.replace("§m", "")
+                                    rname = rname.replace("§k", "")
                                     cclr.getData()
-                                    cclr.setNick(pl, name)
+                                    cclr.setNick(pl, rname)
                                     cclr.save()
+                                    sender.sendMessage("${pl.name}에게 ${rname}이라는 이름을 부여했습니다!")
                                 }
                             }
                         }
                     }
                     then("color") {
-                        then("player" to player()) {
-                            then("color" to string()) {
+                        then("pl" to player()) {
+                            then("color" to string(StringType.QUOTABLE_PHRASE)) {
                                 executes {
                                     val color: String by it
                                     val pl: Player by it
-                                    color.replace("&o", "")
-                                    color.replace("&n", "")
-                                    color.replace("&m", "")
-                                    color.replace("&k", "")
-                                    color.replace("&", "§")
-                                    color.replace("§o", "")
-                                    color.replace("§n", "")
-                                    color.replace("§m", "")
-                                    color.replace("§k", "")
+                                    var rcolor = name.replace("&", "§")
+                                    rcolor = rcolor.replace("§o", "")
+                                    rcolor = rcolor.replace("§n", "")
+                                    rcolor = rcolor.replace("§m", "")
+                                    rcolor = rcolor.replace("§k", "")
                                     cclr.getData()
-                                    cclr.setColor(pl, color)
+                                    cclr.setColor(pl, rcolor)
                                     cclr.save()
+                                    sender.sendMessage("${pl.name}에게 ${rcolor}이색§r을 부여했습니다!")
                                 }
                             }
                         }

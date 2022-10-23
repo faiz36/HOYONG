@@ -13,16 +13,16 @@ class ChatController(val plugin:Plugin):Listener {
     private val file get() = File(plugin.dataFolder, "data.yml")
     private val yaml = YamlConfiguration.loadConfiguration(file)
 
-    fun getNick(uniqueId:UUID){
-        yaml.getString("$uniqueId.chat.nick")
+    fun getNick(uniqueId:UUID):String?{
+        return yaml.getString("$uniqueId.chat.nick")
     }
 
     fun setNick(uniqueId:UUID,nick:String){
         yaml.set("$uniqueId.chat.nick",nick)
     }
 
-    fun getColor(uniqueId:UUID){
-        yaml.getString("$uniqueId.chat.color")
+    fun getColor(uniqueId:UUID):String?{
+        return yaml.getString("$uniqueId.chat.color")
     }
 
     fun setColor(uniqueId:UUID,color:String){

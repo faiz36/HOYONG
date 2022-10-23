@@ -24,6 +24,7 @@ class NewMain : JavaPlugin() {
         CoinCommand(this, coinController,handleCoin)
         HandleJoinLeave(this)
         TotemCommand(this, handleTotem)
+        ChatCommand(this,ChatController)
         kommand{
             register("디스코드"){
                 executes {
