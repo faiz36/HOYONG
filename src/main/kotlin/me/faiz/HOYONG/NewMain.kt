@@ -16,6 +16,7 @@ class NewMain : JavaPlugin() {
     val handleTotem by lazy { HandleTotem(this) }
     val ChatController by lazy { ChatController(this) }
     val handleCoin by lazy { HandleCoin(this) }
+    val reviveController by lazy { ReviveController(this) }
 
     override fun onEnable() {
         HandleChat(this,ChatController)
@@ -25,6 +26,7 @@ class NewMain : JavaPlugin() {
         HandleJoinLeave(this)
         TotemCommand(this, handleTotem)
         ChatCommand(this,ChatController)
+        HandleRevive(this, reviveController)
         kommand{
             register("디스코드"){
                 executes {
