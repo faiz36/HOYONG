@@ -20,13 +20,14 @@ class TotemCommand(val plugin: Plugin, val handleTotem: HandleTotem) {
                             pl.setCooldown(Material.TOTEM_OF_UNDYING,0)
                             sender.sendMessage("불사의 토템 쿨타임이 초기화 되었습니다")
                         }
-                        then("arg" to player()){
+                        then("arg" to players()){
                             executes {
-                                val arg: Player by it
-                                val pl:Player = arg
-                                handleTotem.cooltime[pl.uniqueId] = 0
-                                pl.setCooldown(Material.TOTEM_OF_UNDYING,0)
-                                sender.sendMessage("불사의 토템 쿨타임이 초기화 되었습니다")
+                                val arg: Collection<Player> by it
+                                arg.forEach {
+                                    handleTotem.cooltime[it.uniqueId] = 0
+                                    it.setCooldown(Material.TOTEM_OF_UNDYING,0)
+                                    sender.sendMessage("불사의 토템 쿨타임이 초기화 되었습니다")
+                                }
                             }
                         }
                     }

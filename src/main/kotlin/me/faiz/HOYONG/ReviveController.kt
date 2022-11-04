@@ -16,6 +16,8 @@ class ReviveController(val pl:Plugin):Listener {
         return yaml.getInt("$uniqueId.revive")
     }
 
+//    fun getAd(uniqueId: UUID)
+
     operator fun set(uniqueId: UUID, count: Int) {
         yaml.set("$uniqueId.revive", count)
     }
