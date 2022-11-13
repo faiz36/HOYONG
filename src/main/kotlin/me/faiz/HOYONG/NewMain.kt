@@ -4,13 +4,18 @@ import io.github.monun.kommand.kommand
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
+import org.bukkit.configuration.file.FileConfiguration
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
+import java.io.File
 
 @Suppress("unused")
 class NewMain : JavaPlugin() {
+
+
 
     val coinController by lazy { CoinController(this) }
     val handleTotem by lazy { HandleTotem(this) }
@@ -19,6 +24,14 @@ class NewMain : JavaPlugin() {
     val reviveController by lazy { ReviveController(this) }
 
     override fun onEnable() {
+
+        //TODO: FIX IT
+        val dataf = File(dataFolder.toString() + File.separator + "data.yml")
+        lateinit var data :FileConfiguration
+        if(!dataf.exists()){
+            data = YamlConfiguration.loadConfiguration(dataf)
+            data.save(dataf)
+        }
         HandleChat(this,ChatController)
         BanCommand(this)
         HandleCoin(this)
@@ -27,6 +40,7 @@ class NewMain : JavaPlugin() {
         TotemCommand(this, handleTotem)
         ChatCommand(this,ChatController)
         HandleRevive(this, reviveController)
+        ReviveCommand(this, reviveController)
         kommand{
             register("디스코드"){
                 executes {
