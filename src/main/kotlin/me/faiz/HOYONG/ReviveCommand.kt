@@ -47,8 +47,8 @@ class ReviveCommand(plugin:Plugin,private val rclr:ReviveController) {
                         then("arg" to player()){
                             then("amount" to int()){
                                 executes {
-                                    val arg: Player by it["arg"]
-                                    val amount: Int by it["amount"]
+                                    val arg: Player by it
+                                    val amount: Int by it
                                     rclr[arg] = amount
                                     sender.sendMessage("$arg revive settled to $amount")
                                 }
