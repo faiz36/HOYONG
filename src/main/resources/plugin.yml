@@ -2,10 +2,10 @@ name: HOYONG
 version: 1.0.0
 api-version: 1.19
 main: me.faiz.HOYONG.NewMain
-depend:
-  - Kotlin
 libraries:
   - io.github.monun:kommand-core:2.14.0
+  - org.jetbrains.kotlin:kotlin-stdlib:1.6.10
+
 permissions:
   hoyong.yt:
     default: false
