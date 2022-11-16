@@ -14,7 +14,6 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
 
     init { Bukkit.getPluginManager().registerEvents(this,plugin) }
 
-    // 이쪽 확인좀 잘 작동 안해 ㅋㅋ
     @EventHandler
     fun onDeathEvent(e:PlayerDeathEvent) {
         val inv:Array<ItemStack?> = e.player.inventory.contents
@@ -36,7 +35,8 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
             e.player.health = 20.0
             e.player.sendMessage("부활 토큰을 하나 사용하여 부활하였습니다!")
         }else{
-            e.isCancelled = false
+            e.player.banPlayer("사망하셨습니다")
+            rclr.setDeath(e.player,true)
         }
         inv.forEach {
             if(it != null){

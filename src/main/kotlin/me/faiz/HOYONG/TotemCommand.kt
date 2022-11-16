@@ -6,6 +6,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 
+@Deprecated("No longer used")
 class TotemCommand(val plugin: Plugin, val handleTotem: HandleTotem) {
 
     init {

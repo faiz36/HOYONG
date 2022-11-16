@@ -17,10 +17,12 @@ class ReviveCommand(plugin:Plugin,private val rclr:ReviveController) {
                             executes {
                                 val pl: String by it
                                 val send = Bukkit.getPlayer(sender.name)!!
+                                val target = Bukkit.getOfflinePlayer(pl)
                                 rclr.getData()
                                 if(rclr[send] >= 1){
-                                    if(Bukkit.getOfflinePlayer(pl).isBanned){
-                                        Bukkit.getServer().bannedPlayers.remove(Bukkit.getOfflinePlayer(pl))
+                                    if(target.isBanned && rclr.getDeath(target.uniqueId)){
+                                        Bukkit.getServer().bannedPlayers.remove(target)
+                                        rclr.setDeath(target.uniqueId,false)
                                         rclr[send] = rclr[send]-1
                                         rclr.save()
                                         sender.sendMessage("${it}님을 부활시켰습니다!")

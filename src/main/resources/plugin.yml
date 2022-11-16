@@ -5,8 +5,3 @@ main: me.faiz.HOYONG.NewMain
 libraries:
   - io.github.monun:kommand-core:2.14.0
   - org.jetbrains.kotlin:kotlin-stdlib:1.6.10
-
-permissions:
-  hoyong.yt:
-    default: false
-    description: 유튜버 권한 전용

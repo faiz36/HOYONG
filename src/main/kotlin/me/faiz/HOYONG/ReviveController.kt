@@ -60,9 +60,21 @@ class ReviveController(val pl:Plugin):Listener {
         yaml.set("$uniqueId.revive", count)
     }
 
+    fun setDeath(uniqueId: UUID,boolean: Boolean){
+        yaml.set("$uniqueId.death",boolean)
+    }
+
+    fun getDeath(uniqueId: UUID): Boolean{
+        return yaml.getBoolean("$uniqueId.death")
+    }
+
     fun getData(){
         yaml.load(file)
     }
+
+    fun setDeath(player: Player,boolean: Boolean) = setDeath(player.uniqueId,boolean)
+
+    fun getDeath(player: Player) = getDeath(player.uniqueId)
 
     fun getSt(player:Player) = getSt(player.uniqueId)
 
