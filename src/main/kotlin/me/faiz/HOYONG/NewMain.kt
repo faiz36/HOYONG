@@ -25,7 +25,6 @@ class NewMain : JavaPlugin() {
 
     override fun onEnable() {
 
-        //TODO: FIX IT
         val dataf = File(dataFolder.toString() + File.separator + "data.yml")
         lateinit var data :FileConfiguration
         if(!dataf.exists()){

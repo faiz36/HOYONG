@@ -50,7 +50,8 @@ class ReviveCommand(plugin:Plugin,private val rclr:ReviveController) {
                                     val arg: Player by it
                                     val amount: Int by it
                                     rclr[arg] = amount
-                                    sender.sendMessage("$arg revive settled to $amount")
+                                    rclr.save()
+                                    sender.sendMessage("${arg.name} revive setted to $amount")
                                 }
                             }
                         }
