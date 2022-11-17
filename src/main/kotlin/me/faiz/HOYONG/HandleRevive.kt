@@ -37,6 +37,7 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
         }else{
             e.player.banPlayer("사망하셨습니다")
             rclr.setDeath(e.player,true)
+            rclr.save()
         }
         inv.forEach {
             if(it != null){
