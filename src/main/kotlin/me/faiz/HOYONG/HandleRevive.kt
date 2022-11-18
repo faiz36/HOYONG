@@ -36,6 +36,7 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
             e.player.sendMessage("부활 토큰을 하나 사용하여 부활하였습니다!")
         }else{
             e.player.banPlayer("사망하셨습니다")
+            e.player.inventory.clear()
             rclr.setDeath(e.player,true)
             rclr.save()
         }
