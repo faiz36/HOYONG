@@ -3,16 +3,44 @@ package me.faiz.HOYONG
 import org.bukkit.Bukkit
 import org.bukkit.EntityEffect
 import org.bukkit.NamespacedKey
+import org.bukkit.entity.EntityType
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerAdvancementDoneEvent
+import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerResourcePackStatusEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
+import java.util.UUID
 
 class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listener {
+    var list:HashMap<UUID,Long> = HashMap()
 
     init { Bukkit.getPluginManager().registerEvents(this,plugin) }
+
+    @EventHandler
+    fun onJoin(e: PlayerJoinEvent){
+        e.player.setResourcePack("https://cdn.discordapp.com/attachments/867948419929501719/1042801750194790430/hardcorehearts-e1860.zip","",true)
+    }
+
+    @EventHandler
+    fun onResourcePack(e:PlayerResourcePackStatusEvent){
+        if(e.status == PlayerResourcePackStatusEvent.Status.ACCEPTED){
+            list[e.player.uniqueId] = System.currentTimeMillis()/1000
+        }
+    }
+    @EventHandler
+    fun onDamage(e:EntityDamageEvent){
+        if(e.entity.type == EntityType.PLAYER){
+            val pl:Player = e.entity as Player
+            if(list[pl.uniqueId]!=null && list[pl.uniqueId]!!+5>=System.currentTimeMillis()/1000){
+                e.isCancelled = true
+            }
+        }
+    }
 
     @EventHandler
     fun onDeathEvent(e:PlayerDeathEvent) {
@@ -33,17 +61,17 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
             e.player.saturation = 7f
             e.player.foodLevel = 20
             e.player.health = 20.0
+            inv.forEach {
+                if(it != null){
+                    e.player.world.dropItemNaturally(e.player.location,it)
+                }
+            }
             e.player.sendMessage("부활 토큰을 하나 사용하여 부활하였습니다!")
         }else{
             e.player.banPlayer("사망하셨습니다")
             e.player.inventory.clear()
             rclr.setDeath(e.player,true)
             rclr.save()
-        }
-        inv.forEach {
-            if(it != null){
-                e.player.world.dropItemNaturally(e.player.location,it)
-            }
         }
 
     }
@@ -64,8 +92,8 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
             }
         }
         if(sc == 16){
+            rclr.getData()
             if(!rclr.getSt(e.player)){
-                rclr.getData()
                 rclr[e.player] += 1
                 rclr.setSt(e.player,true)
                 rclr.save()
@@ -80,8 +108,8 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
             }
         }
         if(nc == 24){
+            rclr.getData()
             if(!rclr.getNe(e.player)){
-                rclr.getData()
                 rclr[e.player] += 1
                 rclr.setNe(e.player,true)
                 rclr.save()
@@ -96,8 +124,8 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
             }
         }
         if(ec == 9){
+            rclr.getData()
             if(!rclr.getend(e.player)){
-                rclr.getData()
                 rclr[e.player] += 1
                 rclr.setend(e.player,true)
                 rclr.save()
@@ -112,8 +140,8 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
             }
         }
         if(ac == 30){
+            rclr.getData()
             if(!rclr.getAdv(e.player)){
-                rclr.getData()
                 rclr[e.player] += 1
                 rclr.setAdv(e.player,true)
                 rclr.save()
@@ -128,8 +156,8 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
             }
         }
         if(hc == 23){
+            rclr.getData()
             if(!rclr.gethusbandry(e.player)){
-                rclr.getData()
                 rclr[e.player] += 1
                 rclr.sethusbandry(e.player,true)
                 rclr.save()

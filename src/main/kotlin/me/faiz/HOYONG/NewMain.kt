@@ -28,6 +28,7 @@ class NewMain : JavaPlugin() {
             data.save(dataf)
         }
         HandleChat(this,ChatController)
+        HandleEnd(this)
         BanCommand(this)
         HandleCoin(this)
         CoinCommand(this, coinController,handleCoin)
