@@ -17,7 +17,7 @@ import org.bukkit.plugin.Plugin
 import java.util.UUID
 
 class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listener {
-    var list:HashMap<UUID,Long> = HashMap()
+    var list:HashMap<UUID,Boolean> = HashMap()
 
     init { Bukkit.getPluginManager().registerEvents(this,plugin) }
 
@@ -29,14 +29,17 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
     @EventHandler
     fun onResourcePack(e:PlayerResourcePackStatusEvent){
         if(e.status == PlayerResourcePackStatusEvent.Status.ACCEPTED){
-            list[e.player.uniqueId] = System.currentTimeMillis()/1000
+            list[e.player.uniqueId] = true
+        }
+        if(e.status == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED || e.status == PlayerResourcePackStatusEvent.Status.FAILED_DOWNLOAD || e.status == PlayerResourcePackStatusEvent.Status.DECLINED){
+            list[e.player.uniqueId] = false
         }
     }
     @EventHandler
     fun onDamage(e:EntityDamageEvent){
         if(e.entity.type == EntityType.PLAYER){
             val pl:Player = e.entity as Player
-            if(list[pl.uniqueId]!=null && list[pl.uniqueId]!!+5>=System.currentTimeMillis()/1000){
+            if(list[pl.uniqueId]!!){
                 e.isCancelled = true
             }
         }
