@@ -71,8 +71,8 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
             }
             e.player.sendMessage("부활 토큰을 하나 사용하여 부활하였습니다!")
         }else{
-            e.player.banPlayer("사망하셨습니다")
             e.player.inventory.clear()
+            e.player.banPlayer("사망하셨습니다")
             rclr.setDeath(e.player,true)
             rclr.save()
         }
@@ -88,10 +88,8 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
         var ac = 0
         var hc = 0
         listOf("story/root","story/mine_stone","story/upgrade_tools","story/smelt_iron","story/obtain_armor","story/lava_bucket","story/iron_tools","story/deflect_arrow","story/form_obsidian","story/mine_diamond","story/enter_the_nether","story/shiny_gear","story/enchant_item","story/cure_zombie_villager","story/follow_ender_eye","story/enter_the_end").forEach {
-            if(!e.player.getAdvancementProgress(Bukkit.getAdvancement(NamespacedKey.minecraft(it))!!).isDone){
-                return
-            }else{
-                sc += 1
+            if(e.player.getAdvancementProgress(Bukkit.getAdvancement(NamespacedKey.minecraft(it))!!).isDone){
+                sc++
             }
         }
         if(sc == 16){
@@ -104,10 +102,8 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
             }
         }
         listOf("nether/root","nether/return_to_sender","nether/find_bastion","nether/obtain_ancient_debris","nether/fast_travel","nether/find_fortress","nether/obtain_crying_obsidian","nether/distract_piglin","nether/ride_strider","nether/uneasy_alliance","nether/loot_bastion","nether/use_lodestone","nether/netherite_armor","nether/get_wither_skull","nether/obtain_blaze_rod","nether/charge_respawn_anchor","nether/ride_strider_in_overworld_lava","nether/explore_nether","nether/summon_wither","nether/brew_potion","nether/create_beacon","nether/all_potions","nether/create_full_beacon","nether/all_effects").forEach {
-            if(!e.player.getAdvancementProgress(Bukkit.getAdvancement(NamespacedKey.minecraft(it))!!).isDone){
-                return
-            }else{
-                nc += 1
+            if(e.player.getAdvancementProgress(Bukkit.getAdvancement(NamespacedKey.minecraft(it))!!).isDone){
+                nc++
             }
         }
         if(nc == 24){
@@ -120,10 +116,8 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
             }
         }
         listOf("end/root","end/kill_dragon","end/dragon_egg","end/enter_end_gateway","end/respawn_dragon","end/dragon_breath","end/find_end_city","end/elytra","end/levitate").forEach {
-            if(!e.player.getAdvancementProgress(Bukkit.getAdvancement(NamespacedKey.minecraft(it))!!).isDone){
-                return
-            }else{
-                ec += 1
+            if(e.player.getAdvancementProgress(Bukkit.getAdvancement(NamespacedKey.minecraft(it))!!).isDone){
+                ec++
             }
         }
         if(ec == 9){
@@ -136,10 +130,8 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
             }
         }
         listOf("adventure/root","adventure/voluntary_exile","adventure/spyglass_at_parrot","adventure/kill_a_mob","adventure/trade","adventure/honey_block_slide","adventure/ol_betsy","adventure/lightning_rod_with_villager_no_fire","adventure/fall_from_world_height","adventure/avoid_vibration","adventure/sleep_in_bed","adventure/hero_of_the_village","adventure/spyglass_at_ghast","adventure/throw_trident","adventure/kill_mob_near_sculk_catalyst","adventure/shoot_arrow","adventure/kill_all_mobs","adventure/totem_of_undying","adventure/summon_iron_golem","adventure/trade_at_world_height","adventure/two_birds_one_arrow","adventure/whos_the_pillager_now","adventure/arbalistic","adventure/adventuring_time","adventure/play_jukebox_in_meadows","adventure/walk_on_powder_snow_with_leather_boots","adventure/spyglass_at_dragon","adventure/very_very_frightening","adventure/sniper_duel","adventure/bullseye").forEach {
-            if(!e.player.getAdvancementProgress(Bukkit.getAdvancement(NamespacedKey.minecraft(it))!!).isDone){
-                return
-            }else{
-                ac += 1
+            if(e.player.getAdvancementProgress(Bukkit.getAdvancement(NamespacedKey.minecraft(it))!!).isDone){
+                ac++
             }
         }
         if(ac == 30){
@@ -152,10 +144,8 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
             }
         }
         listOf("husbandry/root","husbandry/safely_harvest_honey","husbandry/breed_an_animal","husbandry/allay_deliver_item_to_player","husbandry/ride_a_boat_with_a_goat","husbandry/tame_an_animal","husbandry/make_a_sign_glow","husbandry/fishy_business","husbandry/silk_touch_nest","husbandry/tadpole_in_a_bucket","husbandry/plant_seed","husbandry/wax_on","husbandry/bred_all_animals","husbandry/allay_deliver_cake_to_note_block","husbandry/complete_catalogue","husbandry/tactical_fishing","husbandry/leash_all_frog_variants","husbandry/balanced_diet","husbandry/obtain_netherite_hoe","husbandry/wax_off","husbandry/axolotl_in_a_bucket","husbandry/froglights","husbandry/kill_axolotl_target").forEach {
-            if(!e.player.getAdvancementProgress(Bukkit.getAdvancement(NamespacedKey.minecraft(it))!!).isDone){
-                return
-            }else{
-                hc += 1
+            if(e.player.getAdvancementProgress(Bukkit.getAdvancement(NamespacedKey.minecraft(it))!!).isDone){
+                hc++
             }
         }
         if(hc == 23){

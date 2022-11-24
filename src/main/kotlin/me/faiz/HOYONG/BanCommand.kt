@@ -14,7 +14,7 @@ class BanCommand(val plugin: Plugin): Listener {
     // 펄머션 부여해야하는데 안해서 쓸모가없음
     @EventHandler(priority = EventPriority.LOWEST)
     fun onPreprocess(e: PlayerCommandPreprocessEvent){
-        if (listOf("pl", "plugins", "stop", "ver", "version", "help", "?", "op", "deop").any { e.message == it }) {
+        if (listOf("/pl", "/plugins", "/stop", "/ver", "/version", "/help", "/?", "/op", "/deop").any { e.message == it }) {
             e.isCancelled = true
             e.player.sendMessage("§c이 명령어는 사용할 수 없습니다")
         }
