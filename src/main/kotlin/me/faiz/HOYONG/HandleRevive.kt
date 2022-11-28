@@ -18,6 +18,7 @@ import java.util.UUID
 
 class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listener {
     var list:HashMap<UUID,Boolean> = HashMap()
+    var listT:HashMap<UUID,Long> = HashMap()
 
     init { Bukkit.getPluginManager().registerEvents(this,plugin) }
 
@@ -31,7 +32,12 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
         if(e.status == PlayerResourcePackStatusEvent.Status.ACCEPTED){
             list[e.player.uniqueId] = true
         }
-        if(e.status == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED || e.status == PlayerResourcePackStatusEvent.Status.FAILED_DOWNLOAD || e.status == PlayerResourcePackStatusEvent.Status.DECLINED){
+        if(e.status == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED){
+            list[e.player.uniqueId] = false
+            listT[e.player.uniqueId] = System.currentTimeMillis()/1000+5
+        }
+
+        if(e.status == PlayerResourcePackStatusEvent.Status.FAILED_DOWNLOAD || e.status == PlayerResourcePackStatusEvent.Status.DECLINED){
             list[e.player.uniqueId] = false
         }
     }
@@ -40,6 +46,9 @@ class HandleRevive(val plugin:Plugin, private val rclr: ReviveController):Listen
         if(e.entity.type == EntityType.PLAYER){
             val pl:Player = e.entity as Player
             if(list[pl.uniqueId]!!){
+                e.isCancelled = true
+            }
+            if (listT[pl.uniqueId]!!>=(System.currentTimeMillis()/1000)){
                 e.isCancelled = true
             }
         }
