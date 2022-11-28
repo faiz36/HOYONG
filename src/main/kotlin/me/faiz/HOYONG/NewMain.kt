@@ -19,6 +19,8 @@ class NewMain : JavaPlugin() {
     val handleCoin by lazy { HandleCoin(this) }
     val reviveController by lazy { ReviveController(this) }
 
+    val NewbieController by lazy { NewbieController(this) }
+
     override fun onEnable() {
 
         val dataf = File(dataFolder.toString() + File.separator + "data.yml")
@@ -36,6 +38,7 @@ class NewMain : JavaPlugin() {
         ChatCommand(this,ChatController)
         HandleRevive(this, reviveController)
         ReviveCommand(this, reviveController)
+        HandleNewbie(this,NewbieController)
         kommand{
             register("디스코드"){
                 executes {
